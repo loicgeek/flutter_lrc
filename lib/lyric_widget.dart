@@ -20,6 +20,7 @@ class LyricWidget extends StatefulWidget {
   final double lyricGap;
   final double remarkLyricGap;
   bool enableDrag;
+  TextAlign textAlign;
 
   //歌词画笔数组
   List<TextPainter> lyricTextPaints = [];
@@ -30,23 +31,24 @@ class LyricWidget extends StatefulWidget {
   //字体最大宽度
   double lyricMaxWidth;
 
-  LyricWidget(
-      {Key key,
-      @required this.lyrics,
-      this.remarkLyrics,
-      @required this.size,
-      this.controller,
-      this.lyricStyle,
-      this.remarkStyle,
-      this.currLyricStyle,
-      this.lyricGap: 10,
-      this.remarkLyricGap: 20,
-      this.draggingLyricStyle,
-      this.draggingRemarkLyricStyle,
-      this.enableDrag: true,
-      this.lyricMaxWidth,
-      this.currRemarkLyricStyle})
-      : assert(enableDrag != null),
+  LyricWidget({
+    Key key,
+    @required this.lyrics,
+    this.remarkLyrics,
+    @required this.size,
+    this.controller,
+    this.lyricStyle,
+    this.remarkStyle,
+    this.currLyricStyle,
+    this.lyricGap: 10,
+    this.remarkLyricGap: 20,
+    this.draggingLyricStyle,
+    this.draggingRemarkLyricStyle,
+    this.enableDrag: true,
+    this.lyricMaxWidth,
+    this.currRemarkLyricStyle,
+    this.textAlign = TextAlign.center,
+  })  : assert(enableDrag != null),
         assert(lyrics != null && lyrics.isNotEmpty),
         assert(size != null),
         assert(controller != null) {
@@ -62,8 +64,10 @@ class LyricWidget extends StatefulWidget {
     lyricTextPaints.addAll(lyrics
         .map(
           (l) => TextPainter(
-              text: TextSpan(text: l.lyric, style: lyricStyle),
-              textDirection: TextDirection.ltr),
+            text: TextSpan(text: l.lyric, style: lyricStyle),
+            textDirection: TextDirection.ltr,
+            textAlign: textAlign,
+          ),
         )
         .toList());
 
@@ -155,7 +159,7 @@ class _LyricWidgetState extends State<LyricWidget> {
               if (temOffset < 0 && temOffset >= -totalHeight) {
                 widget.controller.draggingOffset = temOffset;
                 widget.controller.draggingLine =
-                    getCurrentDraggingLine(temOffset+widget.lyricGap);
+                    getCurrentDraggingLine(temOffset + widget.lyricGap);
                 _lyricPainter.draggingLine = widget.controller.draggingLine;
                 widget.controller.draggingProgress =
                     widget.lyrics[widget.controller.draggingLine].startTime +
