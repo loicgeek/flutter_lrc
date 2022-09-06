@@ -8,7 +8,7 @@ class LyricUtil {
 
     var matches = reg.allMatches(lyricStr);
     var lyrics = matches.map((m) {
-      var matchStr = m.group(0).replaceAll("\n", "");
+      var matchStr = m.group(0)!.replaceAll("\n", "");
       var symbolIndex = matchStr.indexOf("]");
       var time = matchStr.substring(0, symbolIndex);
       var lyric = matchStr.substring(symbolIndex + 1);
