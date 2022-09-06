@@ -10,8 +10,8 @@ class LyricWidget extends StatefulWidget {
   final List<Lyric>? remarkLyrics;
   final Size size;
   final LyricController controller;
-  TextStyle lyricStyle;
-  TextStyle remarkStyle;
+  TextStyle? lyricStyle;
+  TextStyle? remarkStyle;
   TextStyle? currLyricStyle;
   TextStyle? currRemarkLyricStyle;
   TextStyle? draggingLyricStyle;
@@ -36,8 +36,8 @@ class LyricWidget extends StatefulWidget {
     this.remarkLyrics,
     required this.size,
     required this.controller,
-    required this.lyricStyle,
-    required this.remarkStyle,
+    this.lyricStyle,
+    this.remarkStyle,
     this.currLyricStyle,
     this.lyricGap: 10,
     this.remarkLyricGap: 20,
@@ -55,9 +55,9 @@ class LyricWidget extends StatefulWidget {
     this.remarkStyle ??= TextStyle(color: Colors.black, fontSize: 14);
     this.currLyricStyle ??= TextStyle(color: Colors.red, fontSize: 14);
     this.currRemarkLyricStyle ??= this.currLyricStyle;
-    this.draggingLyricStyle ??= lyricStyle.copyWith(color: Colors.greenAccent);
+    this.draggingLyricStyle ??= lyricStyle!.copyWith(color: Colors.greenAccent);
     this.draggingRemarkLyricStyle ??=
-        remarkStyle.copyWith(color: Colors.greenAccent);
+        remarkStyle!.copyWith(color: Colors.greenAccent);
 
     //歌词转画笔
     lyricTextPaints.addAll(lyrics
@@ -192,7 +192,8 @@ class _LyricWidgetState extends State<LyricWidget> {
         findLyricIndexByDuration(widget.controller.progress, widget.lyrics);
 
     widget.controller.previousRowOffset = -widget.controller.draggingOffset!;
-    animationScrollY(_lyricPainter!.currentLyricIndex, widget.controller.vsync!);
+    animationScrollY(
+        _lyricPainter!.currentLyricIndex, widget.controller.vsync!);
     _lyricPainter!.draggingLine = null;
     widget.controller.isDragging = false;
   }
@@ -273,8 +274,8 @@ class _LyricWidgetState extends State<LyricWidget> {
     if (widget.remarkLyrics != null) {
       //增加 当前行之前的翻译歌词的偏移量
       widget.remarkLyrics!
-          .where(
-              (subLyric) => subLyric.endTime! <= widget.lyrics[curLine].endTime!)
+          .where((subLyric) =>
+              subLyric.endTime! <= widget.lyrics[curLine].endTime!)
           .toList()
           .forEach((subLyric) {
         var currentPaint = widget
