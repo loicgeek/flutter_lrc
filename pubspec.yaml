@@ -1,8 +1,7 @@
 name: flutter_lrc
 description: A new Flutter package project.
 version: 0.0.1
-author: loic.ngou98@gmail.com
-homepage:
+homepage: "https://github.com/loicgeek/flutter_lrc"
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
